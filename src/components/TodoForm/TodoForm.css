@@ -1,0 +1,35 @@
+.error {
+  border: 2px solid #ff4444 !important;
+  animation: shake 0.5s;
+}
+
+.error-message {
+  color: #ff4444;
+  font-size: 14px;
+  margin-top: 8px;
+  text-align: left;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+.add-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.todo-input::placeholder {
+  color: #999;
+  font-size: 14px;
+}

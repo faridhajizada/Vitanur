@@ -9,25 +9,41 @@ export const TodoForm = () => {
   const { dispatch } = useTodos();
   const { username } = useAuth();
 
+  const validateTask = (taskText) => {
+    if (!taskText.trim()) return "Task cannot be empty";
+    if (taskText.length < 3) return "Minimum 3 characters required";
+    if (taskText.length > 50) return "Maximum 50 characters allowed";
+    if (/\d/.test(taskText)) return "Numbers are not allowed in tasks";
+    return "";
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!text.trim()) {
-      setError("Write your task");
+    if (!username) {
+      setError("Please enter your name first");
       return;
     }
 
-    if (!username) {
-      setError("Write your name");
+    const validationError = validateTask(text);
+    if (validationError) {
+      setError(validationError);
       return;
     }
 
     dispatch({
       type: "ADD_TODO",
-      payload: { text, author: username },
+      payload: { text: text.trim(), author: username },
     });
     setText("");
     setError("");
+  };
+
+  const handleInputChange = (e) => {
+    const value = e.target.value.replace(/[0-9]/g, "").slice(0, 50);
+
+    setText(value);
+    if (error) setError("");
   };
 
   return (
@@ -36,15 +52,17 @@ export const TodoForm = () => {
         <input
           type="text"
           value={text}
-          onChange={(e) => {
-            setText(e.target.value);
-            setError("");
-          }}
-          placeholder="New task"
+          onChange={handleInputChange}
+          placeholder="New task (3-50 letters, no numbers)"
           className={`todo-input ${error ? "error" : ""}`}
+          autoFocus
         />
-        <button type="submit" className="add-button">
-          Добавить
+        <button
+          type="submit"
+          className="add-button"
+          disabled={text.trim().length < 3 || text.trim().length > 50}
+        >
+          Add
         </button>
       </div>
       {error && <div className="error-message">{error}</div>}
