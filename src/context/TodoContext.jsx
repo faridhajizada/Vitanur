@@ -12,20 +12,26 @@ const loadTodos = () => {
 };
 
 const todoReducer = (todos, action) => {
-  switch (action.type) {
-    case "ADD_TODO":
-      return [
-        ...todos,
-        {
+    switch (action.type) {
+      case 'ADD_TODO':
+        return [...todos, {
           id: Date.now(),
           text: action.payload.text,
           author: action.payload.author,
-        },
-      ];
-    default:
-      return todos;
-  }
-};
+          completed: false
+        }];
+      case 'TOGGLE_TODO':
+        return todos.map(todo => 
+          todo.id === action.payload 
+            ? { ...todo, completed: !todo.completed }
+            : todo
+        );
+      case 'DELETE_TODO':
+        return todos.filter(todo => todo.id !== action.payload);
+      default:
+        return todos;
+    }
+  };
 
 export const TodoProvider = ({ children }) => {
   const [todos, dispatch] = useReducer(todoReducer, [], loadTodos);
