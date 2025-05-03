@@ -15,6 +15,7 @@ export const UsernameModal = () => {
     <div className="modal-overlay">
       <div className="modal-content">
         <h3>Write your name</h3>
+        <br />
         <form onSubmit={handleSubmit}>
           <input
             type="text"
