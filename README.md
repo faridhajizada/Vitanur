@@ -1,6 +1,6 @@
-npm i
-npm run dev
-open serber: http://localhost:5173/
+1. npm i
+2. npm run dev
+3.open server: http://localhost:5173/
 
 
 For Vitanur
